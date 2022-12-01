@@ -1029,6 +1029,10 @@ video {
   transition-duration: 300ms;
 }
 
+.clearfix{
+  overflow: auto;
+}
+
 @-webkit-keyframes spin{
   to{
     transform: rotate(360deg);
