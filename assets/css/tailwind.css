@@ -1643,6 +1643,22 @@ p {
   }
 }
 
+@media (max-width: 400px) {
+  .xs-title {
+    font-size: 1.5rem!important/* 24px */;
+    line-height: 2rem!important/* 32px */;
+  }
+
+  .xs-title-emphasis {
+    font-size: 1.875rem!important/* 30px */;
+    line-height: 2.25rem!important/* 36px */;
+  }
+
+  .xs-pt-10 {
+    padding-top: 5rem!important;
+  }
+}
+
 .footer-bg {
   z-index: -1;
   position: absolute;
