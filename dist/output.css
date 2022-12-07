@@ -571,6 +571,14 @@ video {
   right: 0px;
 }
 
+.top-0 {
+  top: 0px;
+}
+
+.bottom-0 {
+  bottom: 0px;
+}
+
 .z-20 {
   z-index: 20;
 }
@@ -759,6 +767,10 @@ video {
 
 .h-4 {
   height: 1rem;
+}
+
+.h-full {
+  height: 100%;
 }
 
 .w-full {
@@ -1182,6 +1194,10 @@ video {
 
 .pt-28 {
   padding-top: 7rem;
+}
+
+.pb-4 {
+  padding-bottom: 1rem;
 }
 
 .text-left {
@@ -1635,6 +1651,16 @@ video {
 
   .lg\:pt-4 {
     padding-top: 1rem;
+  }
+
+  .lg\:text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  .lg\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
   }
 
   .lg\:shadow-none {
