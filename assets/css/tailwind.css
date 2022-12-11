@@ -1242,11 +1242,23 @@ p {
   overflow: hidden;
 }
 
+.github-btn {
+  background-image: linear-gradient(to right, #595959 0%, #161616 50%, #595959 100%);
+  background-size: 200% auto;
+  overflow: hidden;
+}
+
+.docs-btn {
+  background-image: linear-gradient(to right, #33c8c1 0%, #119bd2 50%, #33c8c1 100%);
+  background-size: 200% auto;
+  overflow: hidden;
+}
+
 .gradient-btn-2 {
   background-image: linear-gradient(to right, #33c8c1 0%, #119bd2 50%, #33c8c1 100%);
 }
 
-.gradient-btn:hover {
+.gradient-btn:hover, .github-btn:hover, .docs-btn:hover {
   background-position: right center;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
