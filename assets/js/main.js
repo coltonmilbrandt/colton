@@ -47,17 +47,24 @@ $(function () {
 
 	//===== close navbar-collapse when a  clicked
 
+	// when click on any link in navbar - hide all menus
 	$(".navbar-nav a").on("click", function () {
 		$(".navbar-collapse").removeClass("show")
+		$("#navbarOne").addClass("collapse")
+		$("#navbarOne").addClass("hidden")
+		$(".navbar-toggler").removeClass("active")
 	})
 
+	// when click on toggler - toggle active and show menu
 	$(".navbar-toggler").on("click", function () {
 		$(this).toggleClass("active")
 		$(".navbar-collapse").toggleClass("show")
 	})
 
-	$(".navbar-nav a").on("click", function () {
-		$(".navbar-toggler").removeClass("active")
+	// when click on toggler - hide all menus
+	$(".navbar-toggler").on("click", function () {
+		$("#navbarOne").toggleClass("collapse")
+		$("#navbarOne").toggleClass("hidden")
 	})
 
 	//===== testimonial active
