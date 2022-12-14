@@ -36,11 +36,16 @@ $(function () {
 		var scrollbarLocation = $(this).scrollTop()
 
 		scrollLink.each(function () {
-			var sectionOffset = $(this.hash).offset().top - 73
-
-			if (sectionOffset <= scrollbarLocation) {
-				$(this).parent().addClass("active")
-				$(this).parent().siblings().removeClass("active")
+			var offset = $(this.hash).offset()
+			if (offset !== null && offset !== undefined) {
+				var top = offset.top - 73
+				// Use the 'top' value in your code here
+				if (top <= scrollbarLocation) {
+					$(this).parent().siblings().removeClass("active")
+					$(this).parent().addClass("active")
+				}
+			} else {
+				return
 			}
 		})
 	})
@@ -59,10 +64,6 @@ $(function () {
 	$(".navbar-toggler").on("click", function () {
 		$(this).toggleClass("active")
 		$(".navbar-collapse").toggleClass("show")
-	})
-
-	// when click on toggler - hide all menus
-	$(".navbar-toggler").on("click", function () {
 		$("#navbarOne").toggleClass("collapse")
 		$("#navbarOne").toggleClass("hidden")
 	})
