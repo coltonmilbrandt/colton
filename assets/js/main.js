@@ -5,6 +5,11 @@ $(function () {
 
 	$(".preloader").delay(500).fadeOut(500)
 
+	//===== Logo Wave
+	setTimeout(function () {
+		$(".single-logo").addClass("single-logo-on-load")
+	}, 1000) // 1000 milliseconds = 1 second
+
 	//===== Sticky
 
 	$(window).on("scroll", function (event) {

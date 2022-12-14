@@ -1304,12 +1304,23 @@ p {
 }
 
 .single-logo {
-  max-width: 190px;
+  max-width: 140px;
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   margin-top: 2rem;
-  transition-duration: 300ms;
+  transition-property: opacity;
+  transition: opacity 0.5s;
+}
+
+.single-logo-on-load {
   opacity: 0.5;
+  transition: opacity 0.5s;
+}
+
+@media (min-width: 500px) {
+  .single-logo {
+    max-width: 190px;
+  }
 }
 
 .section-title .line {
