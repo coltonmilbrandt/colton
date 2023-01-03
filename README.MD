@@ -2,7 +2,7 @@
 
 Welcome to my personal website! I am a blockchain developer with seven years of experience in finance and tech. I enjoy using my skills to create finance-related applications, such as my Solidity-built market launching AMM, Gwin. I also successfully funded and launched my own company, Rent Buddy, an all-in-one rental property management app that used Java and Angular.js.
 
-> Check out the website! [coltonmilbrandt.com](www.coltonmilbrandt.com)
+> Check out the website! [coltonmilbrandt.com](https://coltonmilbrandt.com/)
 
 ## Technical Details of Website
 
