@@ -6,6 +6,7 @@ Welcome to my personal website! I am a blockchain developer with seven years of 
 
 ## Technical Details of Website
 
+-   Fleek
 -   Javascript
 -   Tailwind.css
 -   HTML
