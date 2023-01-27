@@ -1307,7 +1307,6 @@ p {
   max-width: 140px;
   padding-left: 0.75rem;
   padding-right: 0.75rem;
-  margin-top: 2rem;
   transition-property: opacity;
   transition: opacity 0.5s;
 }
