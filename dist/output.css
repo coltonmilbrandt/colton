@@ -845,6 +845,10 @@ video {
   max-width: 42rem;
 }
 
+.grow {
+  flex-grow: 1;
+}
+
 .list-disc {
   list-style-type: disc;
 }
@@ -969,6 +973,11 @@ video {
 .bg-theme-color-2 {
   --tw-bg-opacity: 1;
   background-color: rgb(254 122 123 / var(--tw-bg-opacity));
+}
+
+.object-cover {
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .p-10 {
@@ -1252,6 +1261,14 @@ video {
 
 .opacity-25 {
   opacity: 0.25;
+}
+
+.opacity-75 {
+  opacity: 0.75;
+}
+
+.opacity-80 {
+  opacity: 0.8;
 }
 
 .shadow {

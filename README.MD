@@ -1,6 +1,6 @@
-# Colton Milbrandt | Blockchain Developer
+# Colton Milbrandt | Financial Analyst
 
-Welcome to my personal website! I am a blockchain developer with seven years of experience in finance and tech. I enjoy using my skills to create finance-related applications, such as my Solidity-built market launching AMM, Gwin. I also successfully funded and launched my own company, Rent Buddy, an all-in-one rental property management app that used Java and Angular.js.
+Welcome to my personal website! I'm Colton Milbrandt, a seasoned finance professional with 8 years of experience in financial leadership and analyst roles. I hold a Bachelor's degree in Finance and love creating models that make sense of complex problems. I'm also tech-savvy, with self-taught programming skills and a knack for picking up new technologies. My true passion lies in leveraging complex models to spot patterns, trends, and risks that help my teams make profitable, data-driven decisions.
 
 > Check out the website! [coltonmilbrandt.com](https://coltonmilbrandt.com/)
 
@@ -11,13 +11,6 @@ Welcome to my personal website! I am a blockchain developer with seven years of 
 -   Tailwind.css
 -   HTML
 -   Responsive Design
-
-## Skills
-
--   Blockchain: Solidity, Brownie, Ganache, Hardhat
--   Javascript: Next/React.js, Web3
--   Finance: modeling, risk analysis, general analysis, trading, options
--   Team: communication, project management, agile development
 
 # Contact Me
 
