@@ -18,7 +18,7 @@ $(function () {
 			$(".navbar-area").removeClass("sticky")
 			$(".navbar .navbar-brand img").attr(
 				"src",
-				"assets/images/profile-img.jpg"
+				"assets/images/portraitMin.jpeg"
 			)
 			$(".nav-title").removeClass("text-gray-700")
 			$(".nav-title").addClass("text-white")
@@ -26,7 +26,7 @@ $(function () {
 			$(".navbar-area").addClass("sticky")
 			$(".navbar .navbar-brand img").attr(
 				"src",
-				"assets/images/profile-img.jpg"
+				"assets/images/portraitMin.jpeg"
 			)
 			$(".nav-title").removeClass("text-white")
 			$(".nav-title").addClass("text-gray-700")
