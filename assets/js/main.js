@@ -41,6 +41,7 @@ $(function () {
 		var scrollbarLocation = $(this).scrollTop()
 
 		scrollLink.each(function () {
+			if (!this.hash || this.hash === "#") return
 			var offset = $(this.hash).offset()
 			if (offset !== null && offset !== undefined) {
 				var top = offset.top - 73
@@ -62,12 +63,13 @@ $(function () {
 		$(".navbar-collapse").removeClass("show")
 		$("#navbarOne").addClass("collapse")
 		$("#navbarOne").addClass("hidden")
-		$(".navbar-toggler").removeClass("active")
+		$(".navbar-toggler").removeClass("active").attr("aria-expanded", "false")
 	})
 
 	// when click on toggler - toggle active and show menu
 	$(".navbar-toggler").on("click", function () {
 		$(this).toggleClass("active")
+		$(this).attr("aria-expanded", String($(this).hasClass("active")))
 		$(".navbar-collapse").toggleClass("show")
 		$("#navbarOne").toggleClass("collapse")
 		$("#navbarOne").toggleClass("hidden")
@@ -137,11 +139,12 @@ $(function () {
 
 	//=====  WOW active
 
-	new WOW().init()
+	const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+	if (!reducedMotion) new WOW().init()
 
 	//=====  particles
 
-	if (document.getElementById("particles-1"))
+	if (!reducedMotion && document.getElementById("particles-1"))
 		particlesJS("particles-1", {
 			particles: {
 				number: {
@@ -253,7 +256,7 @@ $(function () {
 			retina_detect: !0,
 		})
 
-	if (document.getElementById("particles-2"))
+	if (!reducedMotion && document.getElementById("particles-2"))
 		particlesJS("particles-2", {
 			particles: {
 				number: {

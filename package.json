@@ -4,5 +4,9 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.2.4"
+  },
+  "scripts": {
+    "build": "tailwindcss -i ./src/tailwind.css -o ./dist/output.css --minify",
+    "start": "python3 -m http.server 8080 --bind 127.0.0.1"
   }
 }

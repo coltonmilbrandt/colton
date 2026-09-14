@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Prompt Wasn’t Enough, and Sometimes the Evaluation Was Wrong | Colton Milbrandt</title>
+  <meta name="description" content="What building MindyCart taught me: score the action the customer authorized, repeat the tests that look good, and debug the measurement before trusting the score.">
+  <link rel="icon" href="../../assets/images/favicon.ico">
+  <link rel="stylesheet" href="../../assets/css/tailwind.css">
+  <link rel="stylesheet" href="../../dist/output.css">
+  <link rel="stylesheet" href="../../assets/css/refresh.css?v=teal-1">
+  <link rel="stylesheet" href="../../assets/css/article.css?v=pull-1">
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#article">Skip to article</a>
+  <header class="article-nav">
+    <a class="article-brand" href="../../">Colton Milbrandt</a>
+    <a href="../../#blog">← All writing</a>
+  </header>
+  <main id="article">
+    <article>
+      <header class="article-heading">
+        <p class="article-eyebrow">Field notes / Applied AI</p>
+        <h1>The Prompt Wasn’t Enough, and Sometimes the Evaluation Was Wrong</h1>
+        <p class="article-deck">What building MindyCart taught me about defining a correct action and measuring whether the agent actually took it.</p>
+        <div class="article-byline"><span>Colton Milbrandt</span><span class="article-status">Product management · AI evaluations</span></div>
+      </header>
+      <figure class="article-lead">
+        <img src="../../assets/images/evals/article-lead.svg" width="800" height="580" fetchpriority="high" alt="A promising start earned another test. The candidate passed 6 of 6 initial scenarios, then 12 of 15 runs in a separate repeated gate.">
+      </figure>
+      <div class="article-body">
+        <p><strong>Building an AI agent taught me that part of a product manager’s job is to define what a correct action looks like, and then to check whether the evaluation can actually recognize one.</strong> A helpful answer can hide a product failure. So can a cheaper turn or a passing test.</p>
+        <p>I built MindyCart to plan family meals and fill grocery carts through chat. The customer reviews the cart and checks out themselves. Mindy never touches payment. Even so, the wrong package size or a product nobody asked for can still end up as something a family pays for.</p>
+        <p>The evaluations helped me improve the agent. They also showed me mistakes in how I was measuring it. Twice the lesson pointed in opposite directions. In one case a prompt could not enforce a product rule, and the fix had to move into code. In another, a model looked like a failure until I noticed the prompt had never asked it to do the thing I was grading it on.</p>
+
+        <h2>Define success around the customer’s decision</h2>
+        <p>I was evaluating two different questions. First, could the planner do its work with fewer model calls. Second, did it record only the product choices the customer had actually made.</p>
+        <p>Diapers are a good example of the second question. The agent offered options that each had a size and a box count. The customer answered “size 4.” The agent then wrote down a box count from its own suggestion. The customer never picked it.</p>
+        <p>That meant I needed two separate measures: whether an item was complete enough to buy, and whether each detail was supported by the customer’s messages or saved preferences. I used an automated detector to flag words and numbers that might be unsupported. Then I inspected the flagged ones by hand, because the detector could not tell an invented value from harmless wording.</p>
+        <p>The separation mattered. An agent can make an item look complete by filling in a choice the customer never made.</p>
+
+        <h2>The eval said the model failed. The prompt was the problem.</h2>
+        <p>The efficiency question started with a model search. I screened 20 candidate models using the planner’s real request, then ran the finalists through conversation scenarios with live model calls and mocked storage and catalog data. These were planner tests, not complete shopping trips.</p>
+        <p>The cheaper candidates all showed the same pattern. Where the reference model searched for three items in one response, the candidates searched for one item, waited for the result, then searched for the next. Each turn took four or five sequential round trips and 10 to 12 seconds.</p>
+        <p>The AI agents assisting with the evals concluded that cheaper models “don’t batch tool calls.” The scores agreed. One candidate passed 5 of 6 scenarios and felt slow in every one. It looked like a property of the model, and the recommendation was to reject it.</p>
+        <blockquote class="article-pull"><p>I had never asked for batching in the prompt, and the prompt had been tuned against the reference model for months. If that model batched on its own, nobody would ever have written the requirement down.</p></blockquote>
+        <p>That conclusion bothered me, and I didn’t want to give up. It occurred to me that I had never made any instructions in the prompt asking for batching, and the prompt had been tuned against the reference model for months. If that model batched on its own, then even in our documentation, nobody ever would have written the requirement down. Worse, as I looked closer, it appeared that the search tool’s own description said to call it once per item, which ends up reading as an instruction to go one at a time. The harness was tuned to one model’s habits and then graded a different model for not sharing them.</p>
+        <p>So I thought, “what if we just tell it to batch?”</p>
+        <p>I ran an A/B on the real 21-tool planner request. Three reasoning settings, three runs each on two multi-item asks: 18 runs, and every one of them made a single tool call per response. Then I added one sentence to the system prompt saying that independent tool calls belong in the same response. With that sentence, 6 of 6 runs issued every search at once, in 2 to 3 seconds. Changing the reasoning setting did nothing. The instruction did everything.</p>
+        <figure class="eval-chart">
+          <h3>The eval said the model couldn’t batch. Nobody had asked it to.</h3>
+          <img src="../../assets/images/evals/batching-instruction.svg?v=styled-2" width="800" height="660" loading="lazy" decoding="async" alt="Across three reasoning settings, 0 of 18 runs batched every search. With one added instruction, 6 of 6 did. On the six-scenario run the candidate went from 5 of 6 passes to 6 of 6, from 5.3 to 4.0 round trips per turn, and from a 12.6 to an 8.0 second median turn. The reference median turn fell from 10.6 to 7.8 seconds.">
+          <figcaption>Adding the batching instruction moved the candidate to 6 of 6 and cut its median turn by 37%. The reference model got faster too. These are single-run contract results. The repeated 15-run gate is reported separately. <a href="../../assets/images/evals/batching-instruction.svg" download>Download chart (SVG)</a></figcaption>
+        </figure>
+        <p>On the six-scenario contract, the candidate went from 5 of 6 passes to 6 of 6. Model round trips per turn dropped from 5.3 to 4.0, and the median turn dropped from 12.6 seconds to 8.0. The same sentence sped up the reference model too, from 10.6 seconds to 7.8, with no regression. At roughly 13 times lower cost per call, a candidate that had been written off became the leading option.</p>
+        <p>What I took from it: an evaluation can only measure a model against the harness it is given. When a prompt has been tuned to one model, a low score for a different model may be measuring the prompt. Before accepting “the model can’t do this,” ask whether anyone ever asked it to.</p>
+        <p>The result also came with limits. Over the full 15-run gate that followed, the candidate still batched a smaller share of its responses than the reference, and it failed that gate on quality. The sentence fixed the specific behavior I probed. It did not make the two models equivalent. I report it as “one instruction changed batching from 0 of 18 runs to 6 of 6,” not as “the candidate now batches like the reference.”</p>
+
+        <h2>Use promising results to choose the next test</h2>
+        <p>The batching result came from a single run of six scenarios. It measured fewer round trips. It did not measure fewer underlying actions, and one pass of each scenario says little about reliability.</p>
+        <p>The next gate repeated five of the scenarios, three times each. The candidate passed 12 of 15 runs. The reference model passed 15 of 15. The candidate was cheaper, but it was also slower. The first successful run had earned more investigation. It had not earned a release decision.</p>
+        <figure class="eval-chart">
+          <h3>The next test changed the decision</h3>
+          <img src="../../assets/images/evals/repeated-tests.svg?v=styled-2" width="800" height="520" loading="lazy" decoding="async" alt="Candidate passed 6 of 6 initial scenarios, then 12 of 15 repeated runs. The reference passed 15 of 15.">
+          <figcaption>Separate test sets: six initial scenarios, then five scenarios repeated three times. The initial 100% pass rate did not establish readiness. <a href="../../assets/images/evals/repeated-tests.svg" download>Download chart (SVG)</a></figcaption>
+        </figure>
+        <p>A later prototype showed roughly 92% lower cost per turn and 36% lower median latency. It also changed parsing, turn completion, routing and gate behavior at the same time. So those numbers describe the configurations I tested. They do not isolate what batching contributed, and they are not a production-wide result.</p>
+        <figure class="eval-chart">
+          <h3>A promising prototype, with limits</h3>
+          <img src="../../assets/images/evals/prototype-tradeoffs.svg?v=styled-2" width="800" height="541" loading="lazy" decoding="async" alt="Prototype versus reference: $0.0031 versus $0.041 per turn; 8.7 versus 13.7 seconds median latency.">
+          <figcaption>Approximate results for the later tested configurations. Parsing, turn completion, routing and gate behavior also changed. These are not isolated batching gains or production-wide results. <a href="../../assets/images/evals/prototype-tradeoffs.svg" download>Download chart (SVG)</a></figcaption>
+        </figure>
+
+        <h2>Put the requirement where it can be enforced</h2>
+        <p>Prompt changes reduced unsupported details in my samples. A different failure did not go away. In a soda scenario, the agent wrote an item on the first turn in 19 of 20 runs across four conditions. It would ask a clarifying question and then act before the customer answered it.</p>
+        <p>That made the product requirement concrete: <strong>if a relevant customer choice is still open, the item is not ready to be written.</strong></p>
+        <p>The first code check blocked unsupported numbers from reaching the list in 30 evaluated exchanges. Unsupported brand words and vague placeholders still got through. Later I required the model to mark each relevant decision as settled or open, and the code rejected any item with a decision still open.</p>
+        <p>The model interpreted what the customer meant. The code enforced the precondition for writing. This tested the planner’s behavior, not live inventory accuracy. Browser verification and shopper-sizing probes were still outstanding.</p>
+
+        <h2>Debug the measurement before chasing the score</h2>
+        <p>One scorer only looked at the first item added and missed an invented value in the second. Another let a customer’s later answer justify a write that had already happened. When package size moved into its own field, a judge that read only the item name marked correctly recorded items as incomplete.</p>
+        <p>After that, a surprising score became a reason to inspect the assertion and the underlying conversation before I changed the agent.</p>
+        <p>I carried the same habit into release verification. I checked that the production image digests matched the staging images that had passed testing. A deploy command finishing successfully would not establish that on its own.</p>
+
+        <h2>What I now ask before a release</h2>
+        <ul>
+          <li>Did we score the recorded action, including whether the customer authorized it?</li>
+          <li>Did the result survive repeated tests?</li>
+          <li>Are required customer decisions enforced before the agent acts?</li>
+          <li>Does the evaluator see the right data at the right point in the conversation?</li>
+          <li>Can we state the sample, the configuration and the remaining failures alongside the result?</li>
+        </ul>
+        <p>Evaluations became the way I decided what to investigate next and what to enforce in code. They also told me when the evidence was strong enough to support a release. Sometimes the most useful result was a narrower claim that matched what I actually knew.</p>
+
+      </div>
+    </article>
+  </main>
+  <footer class="article-footer"><a href="../../#blog">← More writing</a><a href="mailto:coltonmilbrandt@gmail.com">Get in touch</a></footer>
+</body>
+</html>

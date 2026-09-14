@@ -32,3 +32,6 @@ build/
 .env
 .env.local
 .env.*.local
+
+# Local browser verification
+.playwright-mcp/

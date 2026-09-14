@@ -1,19 +1,18 @@
-# Colton Milbrandt | Financial Analyst
+# Colton Milbrandt | Senior Revenue Analyst
 
-Welcome to my personal website! I'm Colton Milbrandt, a seasoned finance professional with 8 years of experience in financial leadership and analyst roles. I hold a Bachelor's degree in Finance and love creating models that make sense of complex problems. I'm also tech-savvy, with self-taught programming skills and a knack for picking up new technologies. My true passion lies in leveraging complex models to spot patterns, trends, and risks that help my teams make profitable, data-driven decisions.
+Personal portfolio covering airline revenue management, customer-facing AI products, agent evaluations, and workflow automation.
 
-> Check out the website! [coltonmilbrandt.com](https://coltonmilbrandt.com/)
+## Local development
 
-## Technical Details of Website
+Run `npm install`, then `npm run build` to generate the Tailwind utilities in `dist/output.css`. Run `npm start` and visit http://127.0.0.1:8080.
 
--   Fleek
--   Javascript
--   Tailwind.css
--   HTML
--   Responsive Design
+- Content: `index.html`
+- Base template styles: `assets/css/tailwind.css`
+- Visual refresh and responsive styles: `assets/css/refresh.css`
+- Navigation, animations and testimonial controls: `assets/js/main.js`
 
-# Contact Me
+The site uses static HTML and the original jQuery/Slick template. Images and video embeds below the hero load lazily; scrolling respects reduced-motion preferences. Run `npm run build` after changing utility classes.
 
-### Email me at coltonmilbrandt@gmail.com!
+## Contact
 
-### Check out my website [www.coltonmilbrandt.com](https://coltonmilbrandt.com/)
+[coltonmilbrandt.com](https://coltonmilbrandt.com/) · coltonmilbrandt@gmail.com

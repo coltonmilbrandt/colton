@@ -9,7 +9,7 @@ $(function() {
             if (target.length) {
                 $('html, body').animate({
                     scrollTop: (target.offset().top -60)
-                }, 1200, "easeInOutExpo");
+                }, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 600, "easeInOutExpo");
                 return false;
             }
         }
